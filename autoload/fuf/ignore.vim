@@ -3,9 +3,6 @@
 "
 " This file is based on fuf/file.vim
 "
-" Place this file in autoload/fuf/ and add "call fuf#addMode('fast')" to your
-" .vimrc
-"
 "=============================================================================
 " LOAD GUARD {{{1
 
