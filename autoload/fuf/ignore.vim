@@ -68,8 +68,6 @@ function fuf#ignore#Update()
   let g:fuf_file_exclude = ignore
   "let g:fuf_dir_exclude = ignore
   "let g:fuf_coveragefile_exclude = ignore
-
-  FufRenewCache
 endfunction
 
 " }}}1
