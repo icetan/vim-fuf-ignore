@@ -42,11 +42,19 @@ endfunction
 " LOCAL FUNCTIONS/VARIABLES {{{1
 
 function fuf#ignore#Update()
-  let exclude_vcs = '(^|/)\.(hg|git|bzr|svn|cvs)(/|$)'
-  let exclude_bin = '\.(o|exe|bak|swp|class|jpeg|jpg|gif|png)$'
-  let ignore = '\v\~$|' . exclude_vcs . '|' . exclude_bin
-
+  let ignores = []
   let ignorefiles = g:fuf_ignore_files
+
+  if !exists('s:original_file_exclude')
+    if exists('g:fuf_file_exclude')
+      let s:original_file_exclude = g:fuf_file_exclude
+    else
+      let s:original_file_exclude = ''
+    endif
+  endif
+  if !empty(s:original_file_exclude)
+    call add(ignores, s:original_file_exclude)
+  endif
 
   for ignorefile in ignorefiles
     if filereadable(ignorefile)
@@ -59,13 +67,13 @@ function fuf#ignore#Update()
             let exType = 'glob'
           endif
         elseif match(line, '^\s*$') == -1 && match(line, '^#') == -1
-          let ignore .= '|' . (exType ==# 'glob' ? g:GlobToRegex(line) : line)
+          call add(ignores, (exType ==# 'glob' ? g:GlobToRegex(line) : line))
         endif
       endfor
     endif
   endfor
 
-  let g:fuf_file_exclude = ignore
+  let g:fuf_file_exclude = join(ignores, '|')
   "let g:fuf_dir_exclude = ignore
   "let g:fuf_coveragefile_exclude = ignore
 endfunction
