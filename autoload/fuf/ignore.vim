@@ -27,8 +27,8 @@ call l9#defineVariableDefault('g:fuf_ignore_files', [
 function g:GlobToRegex(glob)
   let glob = a:glob
   " Escape
-  let glob = substitute(glob, '^/', '', '')
-  let glob = substitute(glob, '\.', '\\.', 'g')
+  let glob = substitute(glob, '^/', '^', '')
+  let glob = substitute(glob, '[.~\{\}\[\]]', '\\&', 'g')
   " Convert
   let glob = substitute(glob, '?', '.', 'g')
   let glob = substitute(glob, '\*\*', '.\n', 'g')
